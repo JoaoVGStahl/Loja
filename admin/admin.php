@@ -53,7 +53,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="?pg=SubCategorias">
                                         <i class="icon-calendar icon-large"></i> SubCategorias
                                     </a>
                                 </li>
