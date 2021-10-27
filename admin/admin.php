@@ -86,6 +86,7 @@
                         case  "Categorias"       : $incluir = 'categorias/index.php' ; break;
                         case  "SubCategorias"    : $incluir = 'subcategorias/index.php' ;break;
                         case  "AlterarCategoria" : $incluir = 'categorias/alterar.php'; break;
+                        case  "AlterarSubcategoria" : $incluir = 'subcategorias/alterar.php'; break;
                     }
                     include($incluir);
                 }else{

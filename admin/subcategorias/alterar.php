@@ -1,8 +1,8 @@
 <?php
     include("../includes/conexao.php");
     $id = $_GET["id"];
-    $categoria = mysqli_query($conexao, "select * from tb_categorias where id='$id'");
-    $catSelecionada = mysqli_fetch_assoc($categoria);
+    $subcategoria = mysqli_query($conexao, "select * from tb_subcategorias where id='$id'");
+    $subcatSelecionada = mysqli_fetch_assoc($subcategoria);
 ?>
 <section class="page container">
     <div class="row">
@@ -10,19 +10,38 @@
             <div class="box">
                 <div class="box-header">
                     <i class="icon-sign-blank"></i>
-                    <h5>Categorias</h5>
+                    <h5>Subcategorias</h5>
                     <button class="btn btn-box-right" data-toggle="collapse" data-target=".box-hide-me">
                         <i class="icon-reorder"></i>
                     </button>
                 </div>
                 <div class="box-hide-me box-content collapse in">
-                    <legend class="lead">
-                        Informe a categoria
-                    </legend>
                     <form method="post" action="categorias/update.php">
+                    <legend class="lead">
+                            Selecione a Categoria
+                        </legend>
                         <div class="controls">
-                            <input id="categoria" name="categoria" class="span5" type="text" value="<?php echo $catSelecionada["categoria"]; ?>" autocomplete="false">
-                            <input id="id_categoria" name="id_categoria" class="span5" type="hidden" value="<?php echo $catSelecionada["id"]; ?>" >
+                            <select id="categoria" name="categoria" class="span5" type="text" value="" autocomplete="false">
+                                <?php
+                                    include("../includes/conexao.php");
+                                    $categorias = mysqli_query($conexao,"select * from tb_categorias");
+                                    while($listar = mysqli_fetch_assoc($categorias)){
+                                        if($listar["id"] == $subcatSelecionada["id_categoria"]){
+                                            echo '<option value="'.$listar["id"].'" selected>'.$listar["categoria"].'</option>';
+                                        }else{
+                                            echo '<option value="'.$listar["id"].'">'.$listar["categoria"].'</option>';
+                                        }
+                                        
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                        <legend class="lead">
+                            Informe a SubCategoria
+                        </legend>
+                        <div class="controls">
+                            <input id="subcategoria" name="subcategoria" class="span5" type="text" value="<?php echo $subcatSelecionada["subcategoria"] ?>" autocomplete="false">
+                            <input type="hidden" name="id_subcategoria" id="id_subcateoria" value="<?php echo $id; ?>">
                         </div>
                         <footer id="submit-actions" class="form-actions">
                             <button id="submit-button" type="submit" class="btn btn-primary" name="action" value="CONFIRM">Salvar</button>
@@ -52,23 +71,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
+                        <?php
                             include_once("../includes/conexao.php");
-                            $listar = mysqli_query($conexao, "select * from tb_categorias order by categoria");
+                            $listar = mysqli_query($conexao, "select ts.id, tc.categoria, ts.subcategoria from tb_subcategorias ts inner join tb_categorias tc on tc.id = ts.id_categoria
+                            ");
                             while ($linha = mysqli_fetch_assoc($listar)) {
                                 echo '
                              <tr>
                              <td>' . $linha["id"] . '</td>
                              <td>' . $linha["categoria"] . '</td>
+                             <td>'. $linha["subcategoria"].'</td>
                              <td>
-                             <a href="categorias/excluir.php?id=' . $linha["id"] . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                             <a href="subcategorias/excluir.php?id=' . $linha["id"] . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                              <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                             </svg>Remover</a></td>
-                             <td>
-                             <a href="?pg=AlterarCategoria&id=' . $linha["id"] . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                             </svg></a>
+                             <a href="?pg=AlterarSubcategoria&id=' . $linha["id"] . '"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                             </svg>Alterar</a>
+                             </svg></a>
                              </td>
                              </tr>
                              ';
