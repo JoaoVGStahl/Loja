@@ -4,10 +4,10 @@
     $subcategoria = $_POST["subcategoria"];
     include("../../includes/conexao.php");
 
-    $gravar = mysqli_query($conexao, "update tb_subcategorias set categoria='$categoria', subcategoria='$subcategoria' where id='$id'");
+    $gravar = mysqli_query($conexao, "update tb_subcategorias set id_categoria='$categoria', subcategoria='$subcategoria' where id='$id'");
     if ($gravar){
-        echo "<script>alert('Categoria Atualizada com sucesso!!')</script>" ;
-        echo '<meta http-equiv="refresh" content="0;url=../admin.php?pg=Subcategorias">';
+        echo "<script>alert('Subcategoria Atualizada com sucesso!!')</script>" ;
+        echo '<meta http-equiv="refresh" content="0;url=../admin.php?pg=SubCategorias">';
     }else{
         echo "ERRO!!"; 
     }

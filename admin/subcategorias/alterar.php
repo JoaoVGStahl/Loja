@@ -10,13 +10,13 @@
             <div class="box">
                 <div class="box-header">
                     <i class="icon-sign-blank"></i>
-                    <h5>Subcategorias</h5>
+                    <h5>Categorias</h5>
                     <button class="btn btn-box-right" data-toggle="collapse" data-target=".box-hide-me">
                         <i class="icon-reorder"></i>
                     </button>
                 </div>
                 <div class="box-hide-me box-content collapse in">
-                    <form method="post" action="categorias/update.php">
+                    <form method="post" action="subcategorias/update.php">
                     <legend class="lead">
                             Selecione a Categoria
                         </legend>
