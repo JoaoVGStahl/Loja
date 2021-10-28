@@ -58,7 +58,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="?pg=Produtos">
                                         <i class="icon-map-marker icon-large"></i> Produtos
                                     </a>
                                 </li>
@@ -83,10 +83,11 @@
            <?php
                 if (isset($_GET["pg"])){
                     switch ($_GET["pg"]){
-                        case  "Categorias"       : $incluir = 'categorias/index.php' ; break;
-                        case  "SubCategorias"    : $incluir = 'subcategorias/index.php' ;break;
-                        case  "AlterarCategoria" : $incluir = 'categorias/alterar.php'; break;
+                        case  "Categorias"          : $incluir = 'categorias/index.php' ; break;
+                        case  "SubCategorias"       : $incluir = 'subcategorias/index.php' ;break;
+                        case  "AlterarCategoria"    : $incluir = 'categorias/alterar.php'; break;
                         case  "AlterarSubcategoria" : $incluir = 'subcategorias/alterar.php'; break;
+                        case  "Produtos"            : $incluir = 'produtos/index.php'; break;
                     }
                     include($incluir);
                 }else{
