@@ -1,3 +1,9 @@
+<?php
+    include("../includes/conexao.php");
+    $id = $_GET["id"];
+    $produto = mysqli_query($conexao, "select * from tb_produtos where id='$id'");
+    $prodSselecionado = mysqli_fetch_assoc($produto);
+?>
 <section class="page container">
     <div class="row">
         <div class="span16">
@@ -10,16 +16,21 @@
                     </button>
                 </div>
                 <div class="box-hide-me box-content collapse in">
-                    <form method="post" action="produtos/salvar.php">
+                    <form method="post" action="produtos/update.php">
                         <legend class="lead">
                             Selecione a Subcategoria
                             <div class="controls">
                                 <select id="subcategoria" name="subcategoria" class="span5" type="text" value="" autocomplete="false">
                                     <?php
                                     include("../includes/conexao.php");
-                                    $subcategorias = mysqli_query($conexao, "select * from tb_subcategorias");
-                                    while ($listar = mysqli_fetch_assoc($subcategorias)) {
-                                        echo '<option value="' . $listar["id"] . '">' . $listar["subcategoria"] . '</option>';
+                                    $subcategorias = mysqli_query($conexao,"select * from tb_subcategorias");
+                                    while($listar = mysqli_fetch_assoc($subcategorias)){
+                                        if($listar["id"] == $prodSselecionado["id_subcategoria"]){
+                                            echo '<option value="'.$listar["id"].'" selected>'.$listar["subcategoria"].'</option>';
+                                        }else{
+                                            echo '<option value="'.$listar["id"].'">'.$listar["subcategoria"].'</option>';
+                                        }
+                                        
                                     }
                                     ?>
                                 </select>
@@ -28,19 +39,20 @@
                         <legend class="lead">
                             Descrição Curta
                             <div class="controls">
-                                <input id="descri_curta" name="descri_curta" class="span5" type="text" value="" autocomplete="false">
+                                <input id="descri_curta" name="descri_curta" class="span5" type="text" value="<?php echo $prodSselecionado["descricao_curta"] ?>" autocomplete="false">
                             </div>
                         </legend>
                         <legend class="lead">
                             Descrição Longa
                             <div class="controls">
-                                <textarea id="descri_longa" name="descri_longa" class="span5" type="text" value="" autocomplete="false"></textarea>
+                                <textarea id="descri_longa" name="descri_longa" class="span5" type="text" value="" autocomplete="false"><?php echo $prodSselecionado["descricao_longa"] ?></textarea>
                             </div>
                         </legend>
                         <legend class="lead">
                             Valor
                             <div class="controls">
-                                <input id="valor" name="valor" class="span5" type="text" value="" autocomplete="false">
+                                <input id="valor" name="valor" class="span5" type="text" value="<?php echo $prodSselecionado["valor"] ?>" autocomplete="false">
+                                <input type="hidden" name="id" id="id" value="<?php echo $prodSselecionado["id"]; ?>">
                             </div>
                             <footer id="submit-actions" class="form-actions">
                                 <button id="submit-button" type="submit" class="btn btn-primary" name="action" value="CONFIRM">Salvar</button>
